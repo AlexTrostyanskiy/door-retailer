@@ -1,5 +1,4 @@
 import blockContent from "./documents/blockContent";
-import country from "./documents/country";
 import catalog from "./documents/catalog";
 import size from "./documents/size";
 import taxon from "./documents/taxon";
@@ -15,7 +14,6 @@ import localeBlockContent from "./locale/BlockContent";
 
 export default [
   blockContent,
-  country,
   catalog,
   size,
   taxon,

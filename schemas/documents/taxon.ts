@@ -14,18 +14,18 @@ export default defineType({
     defineField({
       name: "name",
       title: "Name",
-      type: "localeString",
+      type: "string",
       validation: (rule) => rule.required().error("A name is required")
     }),
     defineField({
       name: "label",
       title: "Label",
-      type: "localeString"
+      type: "string"
     }),
     defineField({
       name: "slug",
       title: "Slug",
-      type: "localeSlug",
+      type: "slug",
       options: {
         source: "Name"
       },
@@ -34,7 +34,7 @@ export default defineType({
     defineField({
       name: "description",
       title: "Description",
-      type: "localeText"
+      type: "text"
     }),
     defineField({
       name: "products",

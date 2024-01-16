@@ -5,29 +5,29 @@ export interface SanityCountry extends Omit<Country, "name"> {
 }
 
 export interface SanityTaxonomy extends Omit<Taxonomy, "name" | "taxons"> {
-  name: Record<string, string>;
-  label: Record<string, string>;
+  name: string;
+  label: string;
   taxons: SanityTaxon[];
 }
 
 export interface SanityTaxon extends Omit<Taxon, "name" | "products"> {
-  name: Record<string, string>;
-  label: Record<string, string>;
+  name: string;
+  label: string;
   products: SanityProduct[];
 }
 
 export interface SanityProduct extends Omit<Product, "name" | "description" | "slug" | "variants"> {
-  name: Record<string, string>;
-  description: Record<string, string>;
+  name: string;
+  description: string;
   slug: Record<string, any>;
   variants: SanityVariant[];
 }
 
 export interface SanityVariant extends Omit<Variant, "name" | "size"> {
-  name: Record<string, string>;
+  name: string;
   size: SanitySize;
 }
 
 export interface SanitySize extends Omit<Size, "name"> {
-  name: Record<string, any>;
+  name: string;
 }

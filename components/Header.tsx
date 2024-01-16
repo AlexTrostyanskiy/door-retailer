@@ -6,12 +6,10 @@ import locale from "@locale/index";
 import SEOHead from "@components/SEO";
 
 type Props = {
-  lang: string;
-  countryCode: string;
   pageTitle?: string;
 };
 
-const Header: React.FC<Props> = ({ lang, countryCode, pageTitle }) => {
+const Header: React.FC<Props> = ({ pageTitle }) => {
   return (
     <>
       <SEOHead productName={pageTitle} />
@@ -22,7 +20,7 @@ const Header: React.FC<Props> = ({ lang, countryCode, pageTitle }) => {
         >
           <div className="flex items-center flex-1 md:absolute md:inset-y-0 md:left-0">
             <div className="flex items-center justify-between w-full md:w-auto">
-              <Link href={`/${countryCode}/${lang}`} passHref>
+              <Link href="/" passHref>
                 <span className="sr-only">Commerce Layer</span>
                 <Image
                   className="h-8 w-auto"
@@ -36,9 +34,9 @@ const Header: React.FC<Props> = ({ lang, countryCode, pageTitle }) => {
             </div>
           </div>
           <div className="md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
-            <Link href={"/[countryCode]/[lang]/cart"} as={`/${countryCode}/${lang}/cart`}>
+            <Link href={"/cart"} as="/cart">
               <div className="flex flex-row items-center">
-                <span className="hidden md:inline-block">{locale[lang].shoppingBag}</span>
+                <span className="hidden md:inline-block">{locale.shoppingBag}</span>
                 <span className="md:hidden">
                   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -66,7 +64,8 @@ const Header: React.FC<Props> = ({ lang, countryCode, pageTitle }) => {
                 </span>
 
                 <LineItemsContainer>
-                  <LineItemsCount className="animate-bounce -ml-4 md:ml-2 inline-flex items-center px-2 py-1 rounded-full text-sm font-medium leading-5 bg-indigo-500 text-gray-50" />
+                  <LineItemsCount
+                    className="animate-bounce -ml-4 md:ml-2 inline-flex items-center px-2 py-1 rounded-full text-sm font-medium leading-5 bg-indigo-500 text-gray-50" />
                 </LineItemsContainer>
               </div>
             </Link>

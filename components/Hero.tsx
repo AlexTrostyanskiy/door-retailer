@@ -3,10 +3,9 @@ import Image from "next/image";
 import locale from "@locale/index";
 
 type Props = {
-  lang: string;
 };
 
-const Header: React.FC<Props> = ({ lang }) => {
+const Header: React.FC<Props> = () => {
   return (
     <main aria-labelledby="header-heading">
       <h2 id="header-heading" className="sr-only">
@@ -17,7 +16,7 @@ const Header: React.FC<Props> = ({ lang }) => {
           <div className="px-6 pt-10 pb-24 sm:pb-32 lg:col-span-7 lg:px-0 lg:pt-36 lg:pb-56 xl:col-span-6">
             <div className="mx-auto max-w-2xl lg:mx-0">
               <h1 className="text-center sm:text-left text-5xl sm:text-4xl mb-20 sm:mb-10 font-bold tracking-tight text-gray-900">
-                {locale[lang].welcome}!
+                {locale.welcome}!
               </h1>
               <p className="relative z-10 mt-6 text-lg leading-8 text-gray-700">
                 This ecommerce store is powered by {""}
@@ -37,7 +36,7 @@ const Header: React.FC<Props> = ({ lang }) => {
                   href="#start"
                   className="z-10 rounded-md border-2 border-gray-900 hover:bg-gray-900 hover:text-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  {locale[lang].startShopping}
+                  {locale.startShopping}
                 </a>
                 <a
                   href="//commercelayer.io/why?utm_source=commercelayer-sanity-template"
@@ -45,7 +44,7 @@ const Header: React.FC<Props> = ({ lang }) => {
                   rel="noopener noreferrer"
                   className="z-10 text-sm font-semibold leading-6 text-gray-900"
                 >
-                  {locale[lang].learnMore} <span aria-hidden="true">→</span>
+                  {locale.learnMore} <span aria-hidden="true">→</span>
                 </a>
               </div>
             </div>

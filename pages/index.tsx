@@ -1,20 +1,26 @@
-import _ from "lodash";
 import Image from "next/image";
 import { GetStaticProps, NextPage } from "next";
 import SEOHead from "@components/SEO";
-import Countries from "@components/Countries";
+import Hero from "@components/Hero";
+import Taxonomies from "@components/Taxonomies";
+import React from "react";
 import sanityApi from "@utils/sanity/api";
+import { Taxonomy } from "@typings/models";
+import Layout from "@components/Layout";
 
 type Props = {
-  countries: any[];
+  taxonomies: Taxonomy[];
 };
 
-const IndexPage: NextPage<Props> = ({ countries }) => {
+const IndexPage: NextPage<Props> = ({ taxonomies }) => {
   return (
     <>
       <SEOHead />
       <div className="m-16 mx-auto container">
-        <Countries items={countries} />
+        <Layout>
+          <Hero />
+          <Taxonomies taxonomies={taxonomies} />
+        </Layout>
       </div>
       <hr />
       <Image
@@ -31,12 +37,13 @@ const IndexPage: NextPage<Props> = ({ countries }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const countries = await sanityApi.getAllCountries();
+  const taxonomies = await sanityApi.getAllTaxonomies();
+
   return {
     props: {
-      countries
+      taxonomies
     },
-    revalidate: false
+    revalidate: 60
   };
 };
 

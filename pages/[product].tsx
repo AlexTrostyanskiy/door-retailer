@@ -4,31 +4,17 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Price, PricesContainer, AddToCartButton } from "@commercelayer/react-components";
-import { useGetToken } from "@hooks/GetToken";
 import locale from "@locale/index";
-import Page from "@components/Page";
-import { Product, Country } from "@typings/models";
-import { parseImg, parseLanguageCode } from "@utils/parser";
+import { Product } from "@typings/models";
+import { parseImg } from "@utils/parser";
 import sanityApi from "@utils/sanity/api";
+import Layout from "@components/Layout";
 
 type Props = {
-  lang: string;
-  countries: Country[];
-  country: Country;
   product: Product;
-  buildLanguages?: Country[];
 };
 
-const ProductPage: React.FC<Props> = ({ lang, country, countries, buildLanguages, product }) => {
-  const countryCode = country?.code.toLowerCase() as string;
-  const clMarketId = country?.marketId as string;
-  const clEndpoint = process.env.NEXT_PUBLIC_CL_ENDPOINT as string;
-  const clToken = useGetToken({
-    scope: clMarketId,
-    countryCode: countryCode
-  });
-  const languageCode = parseLanguageCode(lang, "toLowerCase", true);
-
+const ProductPage: React.FC<Props> = ({ product }) => {
   const imgUrl = parseImg(_.first(product?.images)?.url as string);
   const firstVariantCode = _.first(product?.variants)?.code as string;
   const variantOptions = product?.variants?.map((variant) => {
@@ -48,25 +34,14 @@ const ProductPage: React.FC<Props> = ({ lang, country, countries, buildLanguages
     setSelectedVariant(firstVariantCode);
   }, [firstVariantCode]);
 
-  return !lang || !product ? null : (
-    <Page
-      buildLanguages={buildLanguages}
+  return !product ? null : (
+    <Layout
       pageTitle={product.name}
-      lang={lang}
-      clToken={clToken}
-      clEndpoint={clEndpoint}
-      languageCode={languageCode}
-      countryCode={countryCode}
-      countries={countries}
     >
       <div className="container mx-auto max-w-screen-lg px-5 lg:px-0 text-sm text-gray-700">
         <Link
           href={{
-            pathname: "/[countryCode]/[lang]",
-            query: {
-              countryCode,
-              lang
-            }
+            pathname: "/"
           }}
         >
           <Image
@@ -78,7 +53,7 @@ const ProductPage: React.FC<Props> = ({ lang, country, countries, buildLanguages
             height={20}
           />
           <p className="ml-2 hover:underline inline-block align-middle">
-            {locale[lang].backToAllProducts}
+            {locale.backToAllProducts}
           </p>
         </Link>
       </div>
@@ -102,7 +77,6 @@ const ProductPage: React.FC<Props> = ({ lang, country, countries, buildLanguages
               <div className="flex items-center">
                 <div className="relative" data-children-count="1">
                   <select
-                    placeholder={locale[lang].selectSize as string}
                     className="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-blue-500 text-base pl-3 pr-10"
                     value={selectedVariant}
                     onChange={(e) => setSelectedVariant(e.target.value)}
@@ -141,14 +115,14 @@ const ProductPage: React.FC<Props> = ({ lang, country, countries, buildLanguages
               </span>
               <AddToCartButton
                 skuCode={selectedVariant}
-                label={locale[lang].addToCart as string}
+                label={locale.addToCart as string}
                 className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm md:text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
               />
             </div>
           </div>
         </div>
       </div>
-    </Page>
+    </Layout>
   );
 };
 
@@ -160,26 +134,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }: any) => {
-  const lang = params?.lang as string;
   const slug = params?.product;
-  const countryCode = params?.countryCode as string;
-  const countries = await sanityApi.getAllCountries(lang);
-  const country = countries.find((country: Country) => country.code.toLowerCase() === countryCode);
-  const product = await sanityApi.getProduct(slug, lang);
-  const buildLanguages = _.compact(
-    process.env.BUILD_LANGUAGES?.split(",").map((l) => {
-      const country = countries.find((country: Country) => country.code === parseLanguageCode(l));
-      return !_.isEmpty(country) ? country : null;
-    })
-  );
+  const product = await sanityApi.getProduct(slug);
 
   return {
     props: {
-      lang,
-      countries,
-      country,
-      product,
-      buildLanguages
+      product
     },
     revalidate: 60
   };

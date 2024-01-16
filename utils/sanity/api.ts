@@ -2,13 +2,11 @@ import { createClient, groq } from "next-sanity";
 import _ from "lodash";
 import { Product, Taxon, Taxonomy, Variant } from "@typings/models";
 import {
-  SanityCountry,
   SanityProduct,
   SanityTaxon,
   SanityTaxonomy,
   SanityVariant
 } from "./typings";
-import { parseLocale } from "@utils/parser";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string,
@@ -17,12 +15,12 @@ const client = createClient({
   useCdn: process.env.NODE_ENV === "production" // `false` to ensure fresh data
 });
 
-const parsingVariant = (variants: SanityVariant[], lang = "en_us"): Variant[] => {
+const parsingVariant = (variants: SanityVariant[]): Variant[] => {
   return !_.isEmpty(variants)
     ? variants.map((variant) => {
         const localization = {
-          name: variant?.name?.[lang] || "",
-          size: { name: variant?.size?.name?.[lang] || "" }
+          name: variant?.name || "",
+          size: { name: variant?.size?.name || "" }
         };
         return { ...variant, ...localization };
       })
@@ -31,76 +29,51 @@ const parsingVariant = (variants: SanityVariant[], lang = "en_us"): Variant[] =>
 
 const parsingProduct = (
   products: SanityProduct[] | SanityProduct,
-  lang = "en_us"
 ): Product[] | Product => {
   return _.isArray(products)
     ? products.map((product) => {
         const localization = {
-          name: product?.name[lang],
-          slug: product?.slug["en_us"].current,
-          description: product?.description[lang],
-          variants: parsingVariant(product?.variants, lang) as Variant[]
+          name: product?.name,
+          slug: product?.slug.current,
+          description: product?.description,
+          variants: parsingVariant(product?.variants) as Variant[]
         };
         return { ...product, ...localization };
       })
     : {
         ...products,
-        name: products?.name[lang],
+        name: products?.name,
         slug: products?.slug["en_us"].current,
-        description: products?.description[lang],
-        variants: parsingVariant(products?.variants, lang) as Variant[]
+        description: products?.description,
+        variants: parsingVariant(products?.variants) as Variant[]
       };
 };
 
-const parsingTaxon = (taxons: SanityTaxon[], lang = "en_us"): Taxon[] => {
+const parsingTaxon = (taxons: SanityTaxon[]): Taxon[] => {
   return taxons.map((taxon) => {
     const localization = {
-      name: taxon?.name[lang],
-      label: taxon?.label[lang],
-      products: taxon?.products ? (parsingProduct(taxon.products, lang) as Product[]) : []
+      name: taxon?.name,
+      label: taxon?.label,
+      products: taxon?.products ? (parsingProduct(taxon.products) as Product[]) : []
     };
     return { ...taxon, ...localization };
   });
 };
 
-const parsingTaxonomies = (taxonomies: SanityTaxonomy[], locale = "en-US"): Taxonomy[] => {
-  const lang = parseLocale(locale, "_", "-", "lowercase");
+const parsingTaxonomies = (taxonomies: SanityTaxonomy[]): Taxonomy[] => {
   const items = taxonomies.map((taxonomy) => {
     const localization = {
-      name: taxonomy?.name[lang],
-      label: taxonomy?.label[lang],
-      taxons: parsingTaxon(taxonomy?.taxons, lang)
+      name: taxonomy?.name,
+      label: taxonomy?.label,
+      taxons: parsingTaxon(taxonomy?.taxons)
     };
     return { ...taxonomy, ...localization };
   });
   return items;
 };
 
-const getAllCountries = async (locale = "en-US") => {
-  const lang = parseLocale(locale, "_", "-", "lowercase");
-  const query = groq`*[_type == "country"]{
-    name,
-    code,
-    marketId,
-    defaultLocale,
-    "image": {
-      "url": image.asset->url
-    },
-    'catalog': {
-      'id': catalog->_id
-    }
-  } | order(name["${lang}"] asc)`;
-  const countries = await client.fetch<SanityCountry[]>(query);
-  return countries.map((country) => {
-    const localization = {
-      name: country?.name[lang]
-    };
-    return { ...country, ...localization };
-  });
-};
-
-const getAllTaxonomies = async (catalogId: string, locale = "en-US") => {
-  const query = groq`*[_type == "catalog" && _id == '${catalogId}']{
+const getAllTaxonomies = async () => {
+  const query = groq`*[_type == "catalog"]{
     'taxonomies': taxonomies[]->{
       label,
       name,
@@ -125,11 +98,10 @@ const getAllTaxonomies = async (catalogId: string, locale = "en-US") => {
     }
   }  | order(name asc)`;
   const items: any[] = await client.fetch(query);
-  return parsingTaxonomies(_.first(items)?.taxonomies, locale);
+  return parsingTaxonomies(_.first(items)?.taxonomies);
 };
 
-const getProduct = async (slug: string, locale = "en-US") => {
-  const lang = parseLocale(locale, "_", "-", "lowercase");
+const getProduct = async (slug: string) => {
   const query = groq`*[_type == "product" && slug.en_us.current == '${slug}']{
     name,
     description,
@@ -149,11 +121,10 @@ const getProduct = async (slug: string, locale = "en-US") => {
     }    
   }`;
   const item: any[] = await client.fetch(query);
-  return parsingProduct(_.first(item), lang);
+  return parsingProduct(_.first(item));
 };
 
-const sanityApi: Record<string, any> = {
-  getAllCountries,
+const sanityApi = {
   getAllTaxonomies,
   getProduct
 };
