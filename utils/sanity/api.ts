@@ -1,12 +1,7 @@
 import { createClient, groq } from "next-sanity";
 import _ from "lodash";
 import { Product, Taxon, Taxonomy, Variant } from "@typings/models";
-import {
-  SanityProduct,
-  SanityTaxon,
-  SanityTaxonomy,
-  SanityVariant
-} from "./typings";
+import { SanityProduct, SanityTaxon, SanityTaxonomy, SanityVariant } from "./typings";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string,
@@ -124,8 +119,16 @@ const getProduct = async (slug: string) => {
   return parsingProduct(_.first(item));
 };
 
+const getAllProductSlugs = async () => {
+  const query = groq`*[_type == "product"]{
+    slug: slug.current,
+  }`;
+  return await client.fetch(query);
+};
+
 const sanityApi = {
   getAllTaxonomies,
+  getAllProductSlugs,
   getProduct
 };
 

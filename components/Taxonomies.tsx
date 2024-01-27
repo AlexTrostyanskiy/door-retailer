@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import ProductsList from "@components/ProductsList";

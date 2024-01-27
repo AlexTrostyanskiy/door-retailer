@@ -1,18 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { LineItemsContainer, LineItemsCount } from "@commercelayer/react-components";
 import locale from "@locale/index";
-import SEOHead from "@components/SEO";
 
-type Props = {
-  pageTitle?: string;
-};
-
-const Header: React.FC<Props> = ({ pageTitle }) => {
+export default function Header() {
   return (
     <>
-      <SEOHead productName={pageTitle} />
       <div className="sticky top-0 max-w-7xl mx-auto">
         <nav
           className="relative flex items-center justify-between sm:h-10 md:justify-center"
@@ -63,10 +56,10 @@ const Header: React.FC<Props> = ({ pageTitle }) => {
                   </svg>
                 </span>
 
-                <LineItemsContainer>
-                  <LineItemsCount
-                    className="animate-bounce -ml-4 md:ml-2 inline-flex items-center px-2 py-1 rounded-full text-sm font-medium leading-5 bg-indigo-500 text-gray-50" />
-                </LineItemsContainer>
+                {/*<LineItemsContainer>*/}
+                {/*  <LineItemsCount*/}
+                {/*    className="animate-bounce -ml-4 md:ml-2 inline-flex items-center px-2 py-1 rounded-full text-sm font-medium leading-5 bg-indigo-500 text-gray-50" />*/}
+                {/*</LineItemsContainer>*/}
               </div>
             </Link>
           </div>
@@ -76,5 +69,3 @@ const Header: React.FC<Props> = ({ pageTitle }) => {
     </>
   );
 };
-
-export default Header;
