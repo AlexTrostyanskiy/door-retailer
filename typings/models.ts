@@ -1,18 +1,3 @@
-export interface Country {
-  name: string;
-  defaultLocale: string;
-  code: string;
-  domain: string;
-  catalog: Catalog;
-  image: Image;
-  marketId: string;
-}
-
-export interface Catalog {
-  name: string;
-  taxonomies: Taxonomy[];
-}
-
 export interface Taxonomy {
   name: string;
   taxons: Taxon[];
@@ -52,9 +37,4 @@ export interface Image {
     url?: string;
   };
   url: string;
-}
-
-export interface SelectorObject {
-  code: string;
-  imageUrl: string;
 }

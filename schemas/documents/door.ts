@@ -1,31 +1,28 @@
 import { TfiShoppingCartFull } from "react-icons/tfi";
 import { defineField, defineType } from "sanity";
-import supportedLanguages from "../locale/supportedLanguages";
-
-const baseLanguage = supportedLanguages.find((l) => l.isDefault) || supportedLanguages[0];
 
 export default defineType({
-  name: "product",
-  title: "Product",
-  description: "A list of products associated with some variants",
+  name: "door",
+  title: "Дверь",
+  description: "",
   type: "document",
   icon: TfiShoppingCartFull,
   fields: [
     defineField({
       name: "name",
       title: "Name",
-      type: "localeString",
+      type: "string",
       validation: (rule) => rule.required()
     }),
     defineField({
       name: "description",
       title: "Description",
-      type: "localeText"
+      type: "text"
     }),
     defineField({
       name: "slug",
       title: "Slug",
-      type: "localeSlug",
+      type: "slug",
       validation: (rule) => rule.required()
     }),
     defineField({
@@ -42,7 +39,7 @@ export default defineType({
         {
           type: "reference",
           to: {
-            type: "productImage"
+            type: "doorImage"
           }
         }
       ],
@@ -66,8 +63,8 @@ export default defineType({
 
   preview: {
     select: {
-      title: `name.${baseLanguage.id}`,
-      subtitle: `slug.${baseLanguage.id}.current`,
+      title: "name",
+      subtitle: "slug.current",
       media: "images.0.images"
     },
     prepare({ title, subtitle, media }) {

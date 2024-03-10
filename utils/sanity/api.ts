@@ -38,7 +38,7 @@ const parsingProduct = (
     : {
         ...products,
         name: products?.name,
-        slug: products?.slug["en_us"].current,
+        slug: products?.slug.current,
         description: products?.description,
         variants: parsingVariant(products?.variants) as Variant[]
       };
@@ -97,7 +97,7 @@ const getAllTaxonomies = async () => {
 };
 
 const getProduct = async (slug: string) => {
-  const query = groq`*[_type == "product" && slug.en_us.current == '${slug}']{
+  const query = groq`*[_type == "door" && slug.current == '${slug}']{
     name,
     description,
     reference,

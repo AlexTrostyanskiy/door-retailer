@@ -1,8 +1,5 @@
 import { ImUngroup } from "react-icons/im";
 import { defineField, defineType } from "sanity";
-import supportedLanguages from "../locale/supportedLanguages";
-
-const baseLanguage = supportedLanguages.find((l) => l.isDefault) || supportedLanguages[0];
 
 export default defineType({
   name: "taxonomy",
@@ -40,7 +37,7 @@ export default defineType({
 
   preview: {
     select: {
-      title: `name.${baseLanguage.id}`
+      title: `name`
     }
   }
 });

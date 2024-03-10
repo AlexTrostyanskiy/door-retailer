@@ -1,8 +1,5 @@
 import { SlGlobeAlt } from "react-icons/sl";
 import { defineField, defineType } from "sanity";
-import supportedLanguages from "../locale/supportedLanguages";
-
-const baseLanguage = supportedLanguages.find((l) => l.isDefault) || supportedLanguages[0];
 
 export default defineType({
   name: "catalog",
@@ -35,7 +32,7 @@ export default defineType({
 
   preview: {
     select: {
-      title: `name.${baseLanguage.id}`
+      title: "name"
     }
   }
 });
