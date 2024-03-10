@@ -17,8 +17,8 @@ const ProductsList = ({ products }: Props) => {
           return (
             <li key={key}>
               <Link
-                href={"/[productName]"}
-                as={`/${slug}`}
+                href={"/product/[productName]"}
+                as={`/product/${slug}`}
                 passHref
               >
                 <div className="flex flex-col h-full border-2 rounded-lg p-5 md:p-3 hover:shadow-2xl">

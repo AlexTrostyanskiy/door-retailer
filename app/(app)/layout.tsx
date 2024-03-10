@@ -1,9 +1,11 @@
 import React, { PropsWithChildren } from "react";
 import { Manrope } from "next/font/google";
 import { Metadata, Viewport } from "next";
-
-import "../styles/globals.css";
 import { baseUrl } from "@utils/config";
+import Header from "@components/Header";
+import Footer from "@components/Footer";
+
+import "../../styles/globals.css";
 
 const title = process.env.NEXT_PUBLIC_SITE_NAME || "Commerce Layer Sanity Template";
 const description =
@@ -44,7 +46,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
       <meta name="msapplication-TileColor" content="#FFFFFF" />
     </head>
     <body className={manrope.className}>
+    <Header className="sticky inset-x-0 top-0 z-20"/>
+
     {children}
+
+    <Footer />
     </body>
     </html>
   );

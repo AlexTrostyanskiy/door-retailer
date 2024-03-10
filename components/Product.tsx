@@ -1,22 +1,19 @@
 "use client";
 
+import { parseImg } from "@utils/parser";
 import _ from "lodash";
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-// import { Price, PricesContainer, AddToCartButton } from "@commercelayer/react-components";
+import Image from "next/image";
 import locale from "@locale/index";
 import { Product } from "@typings/models";
-import { parseImg } from "@utils/parser";
-import sanityApi from "@utils/sanity/api";
-import Layout from "@components/Layout";
 
-type Props = {
-  slug: string;
-};
 
-export default async function ProductPage({ slug }: Props) {
-  const product: Product = await sanityApi.getProduct(slug);
+interface Props {
+  product: Product;
+}
+
+export default function ProductComponent({ product }: Props) {
   const imgUrl = parseImg(_.first(product?.images)?.url as string);
   const firstVariantCode = _.first(product?.variants)?.code as string;
   const variantOptions = product?.variants?.map((variant) => {
@@ -37,9 +34,7 @@ export default async function ProductPage({ slug }: Props) {
   }, [firstVariantCode]);
 
   return !product ? null : (
-    <Layout
-      pageTitle={product.name}
-    >
+    <>
       <div className="container mx-auto max-w-screen-lg px-5 lg:px-0 text-sm text-gray-700">
         <Link
           href={{
@@ -125,10 +120,6 @@ export default async function ProductPage({ slug }: Props) {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
-};
-
-export async function generateStaticParams() {
-  return sanityApi.getAllProductSlugs();
 }

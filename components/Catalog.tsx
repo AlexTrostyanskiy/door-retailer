@@ -13,7 +13,7 @@ type Props = {
   lang?: string;
 };
 
-const Taxonomies = ({ taxonomies }: Props) => {
+export default function Catalog({ taxonomies }: Props) {
   const [on, setOn] = useState<Record<string, number>>({ "0": 0 });
   const [currentProducts, setCurrentProducts] = useState([]);
   useEffect(() => {
@@ -77,5 +77,3 @@ const Taxonomies = ({ taxonomies }: Props) => {
     </div>
   );
 };
-
-export default Taxonomies;
