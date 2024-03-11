@@ -5,12 +5,12 @@ import { baseUrl } from "@utils/config";
 
 import "../styles/globals.css";
 
-const title = process.env.NEXT_PUBLIC_SITE_NAME || "Commerce Layer Sanity Template";
+const title = process.env.NEXT_PUBLIC_SITE_NAME || "Door retailer";
 const description =
   "A multi-country ecommerce template built with Commerce Layer, Next.js, Sanity studio, and deployed to Netlify.";
 const keywords =
   "Commerce Layer, Reactjs, Nextjs, Sanity Studio, Netlify, Nextjs Template, Sanity Template, Sanity Ecommerce Template, Ecommerce Template, Ecommerce, Mobile Ecommerce, Mobile Ecommerce Site, Sanity Ecommerce Site, Nextjs Ecommerce Site ";
-const url = process.env.NEXT_PUBLIC_SITE_URL || "https://commercelayer-sanity-template.netlify.app";
+const url = process.env.VERCEL_URL || "https://www.google.nl";
 const ogImage = "/preview.jpg";
 const favicon = "//data.commercelayer.app/assets/images/favicons/favicon.ico";
 const touchIcon = "/seo/ios/192.png";
