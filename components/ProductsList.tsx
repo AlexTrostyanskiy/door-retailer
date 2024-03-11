@@ -21,7 +21,7 @@ const ProductsList = ({ products }: Props) => {
                 as={`/product/${slug}`}
                 passHref
               >
-                <div className="flex flex-col h-full border-2 rounded-lg p-5 md:p-3 hover:shadow-2xl">
+                <div className="flex flex-col h-full rounded-lg p-5 md:p-3 transition-all bg-slate-50 hover:bg-slate-100 shadow-card hover:shadow-card-hover">
                   <div className="aspect-w-3 aspect-h-2 mb-5">
                     <Image
                       className="object-contain"

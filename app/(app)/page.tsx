@@ -6,9 +6,9 @@ import Catalog from "@components/Catalog";
 export default async function Page() {
   const taxonomies = await sanityApi.getAllTaxonomies();
   return (
-    <div className="m-16 mx-auto container">
-      <Hero />
+    <>
+      <Hero className="border-b bg-slate-100"/>
       <Catalog taxonomies={taxonomies} />
-    </div>
+    </>
   );
 };
