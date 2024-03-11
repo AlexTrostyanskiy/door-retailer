@@ -9,7 +9,7 @@ html {
 
 body {
   height: 100vh;
-  @apply bg-ashy;
+  @apply bg-slate-100;
 }
 
 h1,
