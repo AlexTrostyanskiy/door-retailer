@@ -4,7 +4,7 @@ type Locale = {
 
 const locale: Locale = {
   languageName: "English",
-  welcome: "Hey, there",
+  welcome: "Сань, сосі",
   addToCart: "Add to cart",
   available: "available",
   notAvailable: "Not available",
