@@ -32,29 +32,26 @@ export default function Catalog({ taxonomies }: Props) {
       const checked = on[`${k}`] === i;
       const disabled = pQuantity === 0;
       return (
-        <li key={i}>
-          {/* <!-- On: "bg-indigo-50 border-indigo-200 z-10", Off: "border-gray-200" --> */}
-          <div
-            className={`${checked ? "bg-blue-50 border-blue-200 z-10" : "border-gray-200"} ${
+        <li key={i}
+            className={`${checked ? "bg-slate-100" : "bg-white"} ${
               disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-            } border rounded-md p-4 my-1`}
+            } rounded-lg shadow-card hover:shadow-card-hover p-4`}
             onClick={() => !disabled && setOn(checkedKey)}
+        >
+          <label
+            className={`${
+              disabled ? "cursor-not-allowed" : "cursor-pointer"
+            } flex items-center text-sm justify-between`}
           >
-            <label
+            <span className="ml-3 font-medium text-sm text-gray-900 flex-grow">{initialName}</span>
+            <span
               className={`${
-                disabled ? "cursor-not-allowed" : "cursor-pointer"
-              } flex items-center text-sm justify-between`}
+                checked ? "bg-gray-900 text-gray-50" : "bg-gray-100 text-gray-600"
+              } ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium leading-5`}
             >
-              <span className="ml-3 font-medium text-sm text-gray-900 flex-grow">{initialName}</span>
-              <span
-                className={`${
-                  checked ? "bg-gray-900 text-gray-50" : "bg-gray-100 text-gray-600"
-                } ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium leading-5`}
-              >
                 {pQuantity}
               </span>
-            </label>
-          </div>
+          </label>
         </li>
       );
     });
@@ -63,7 +60,7 @@ export default function Catalog({ taxonomies }: Props) {
         <h2 className="text-gray-500 text-xs font-medium uppercase tracking-wide mb-4">{t?.label || t.name}</h2>
         <fieldset>
           <legend className="sr-only">Taxon</legend>
-          <ul className=" bg-white rounded-md -space-y-px">{taxonCard}</ul>
+          <ul className="flex flex-col gap-2">{taxonCard}</ul>
         </fieldset>
       </div>
     );
@@ -71,7 +68,7 @@ export default function Catalog({ taxonomies }: Props) {
   return (
     <div className="px-3 mt-12 lg:px-0 container mx-auto max-w-screen-lg flex flex-wrap sm:flex-nowrap">
       <div className="flex-shrink md:flex-shrink-0 md:pr-4 w-full sm:w-auto">{taxonomy}</div>
-      <div className="w-full mt-10">
+      <div className="w-full">
         <ProductsList products={currentProducts} />
       </div>
     </div>

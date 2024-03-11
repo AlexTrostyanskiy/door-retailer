@@ -11,7 +11,7 @@ type Props = {
 const ProductsList = ({ products }: Props) => {
   return (
     <div className="mt-12 sm:ml-10 lg:col-span-2">
-      <ul className="md:pt-7 space-y-12 sm:grid sm:grid-cols-1 md:grid-cols-3 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:gap-x-8">
+      <ul className="md:pt-7 space-y-12 sm:grid sm:grid-cols-1 md:grid-cols-3 sm:gap-6 sm:space-y-0 lg:gap-8">
         {products.map(({ images, name, slug }, key: number) => {
           const img = _.first(images)?.url;
           return (
@@ -21,7 +21,7 @@ const ProductsList = ({ products }: Props) => {
                 as={`/product/${slug}`}
                 passHref
               >
-                <div className="flex flex-col h-full rounded-lg p-5 md:p-3 transition-all bg-slate-50 hover:bg-slate-100 shadow-card hover:shadow-card-hover">
+                <div className="flex flex-col h-full rounded-lg p-5 md:p-3 transition-all ease-in-out duration-150 bg-white hover:bg-slate-100 shadow-card hover:shadow-card-hover">
                   <div className="aspect-w-3 aspect-h-2 mb-5">
                     <Image
                       className="object-contain"
